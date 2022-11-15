@@ -1,5 +1,4 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MathLibrary;
 using System;
 
 namespace UnitTest
@@ -268,6 +267,9 @@ namespace UnitTest
         {
             Matrix4 m4a = new Matrix4();
             m4a = Matrix4.CreateRotationX(4.5f);
+
+            m4a = Transpose(m4a);
+
             Matrix4 expected = new Matrix4(1, 0, 0, 0, 0, -0.210796f, -0.97753f, 0, 0, 0.97753f, -0.210796f, 0, 0, 0, 0, 1);
             Assert.IsTrue(compare(m4a,
                 new Matrix4(1, 0, 0, 0, 0, -0.210796f, -0.97753f, 0, 0, 0.97753f, -0.210796f, 0, 0, 0, 0, 1)), "Expected: " + Matrix4ToString(expected) + "\n" + "Received: " + Matrix4ToString(m4a));
@@ -278,6 +280,9 @@ namespace UnitTest
         {
             Matrix4 m4b = new Matrix4();
             m4b = Matrix4.CreateRotationY(-2.6f);
+
+            m4b = Transpose(m4b);
+
             Matrix4 expected = new Matrix4(-0.856889f, 0, 0.515501f, 0, 0, 1, 0, 0, -0.515501f, 0, -0.856889f, 0, 0, 0, 0, 1);
             Assert.IsTrue(compare(m4b,
                 new Matrix4(-0.856889f, 0, 0.515501f, 0, 0, 1, 0, 0, -0.515501f, 0, -0.856889f, 0, 0, 0, 0, 1)), "Expected: " + Matrix4ToString(expected) + "\n" + "Received: " + Matrix4ToString(m4b));
@@ -288,6 +293,9 @@ namespace UnitTest
         {
             Matrix3 m3c = new Matrix3();
             m3c = Matrix3.CreateRotation(9.62f);
+
+            m3c = Transpose(m3c);
+
             Matrix3 expected = new Matrix3(-0.981005f, -0.193984f, 0, 0.193984f, -0.981005f, 0, 0, 0, 1);
             Assert.IsTrue(compare(m3c,
                 new Matrix3(-0.981005f, -0.193984f, 0, 0.193984f, -0.981005f, 0, 0, 0, 1)), "Expected: " + Matrix3ToString(expected) + "\n" + "Received: " + Matrix3ToString(m3c));
@@ -298,6 +306,9 @@ namespace UnitTest
         {
             Matrix4 m4c = new Matrix4();
             m4c = Matrix4.CreateRotationZ(0.72f);
+
+            m4c = Transpose(m4c);
+
             Matrix4 expected = new Matrix4(0.751806f, 0.659385f, 0, 0, -0.659385f, 0.751806f, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
             Assert.IsTrue(compare(m4c,
                 new Matrix4(0.751806f, 0.659385f, 0, 0, -0.659385f, 0.751806f, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)), "Expected: " + Matrix4ToString(expected) + "\n" + "Received: " + Matrix4ToString(m4c));
@@ -309,12 +320,14 @@ namespace UnitTest
             Matrix3 m3c = new Matrix3();
             m3c = Matrix3.CreateRotation(9.62f);
 
+            m3c = Transpose(m3c);
+
             Vector3 v3a = new Vector3(13.5f, -48.23f, 862);
             Vector3 v3c = m3c * v3a;
 
             Vector3 expected = new Vector3(-22.599422f, 44.69507f, 862);
 
-            Assert.IsTrue(compare(v3c,expected), "Expected: " + Vector3ToString(expected) + "\n" + "Received: " + Vector3ToString(v3c));
+            Assert.IsTrue(compare(v3c, expected), "Expected: " + Vector3ToString(expected) + "\n" + "Received: " + Vector3ToString(v3c));
         }
 
         [TestMethod]
@@ -322,6 +335,8 @@ namespace UnitTest
         {
             Matrix4 m4b = new Matrix4();
             m4b = Matrix4.CreateRotationY(-2.6f);
+
+            m4b = Transpose(m4b);
 
             Vector4 v4a = new Vector4(13.5f, -48.23f, 862, 0);
             Vector4 v4b = m4b * v4a;
@@ -336,6 +351,8 @@ namespace UnitTest
         {
             Matrix4 m4c = new Matrix4();
             m4c = Matrix4.CreateRotationZ(0.72f);
+
+            m4c = Transpose(m4c);
 
             Vector4 v4a = new Vector4(13.5f, -48.23f, 862, 0);
             Vector4 v4b = m4c * v4a;
@@ -355,6 +372,7 @@ namespace UnitTest
             m3c = Matrix3.CreateTranslation(3, 15);
 
             Matrix3 m4d = m3b * m3c;
+            m4d = Transpose(m4d);
             Matrix3 expected = new Matrix3(1, 0, 0, 0, 1, 0, 5, 18, 1);
 
             Assert.IsTrue(compare(m4d,
@@ -366,14 +384,17 @@ namespace UnitTest
         {
             Matrix4 m4b = new Matrix4();
             m4b = Matrix4.CreateRotationY(-2.6f);
+            m4b = Transpose(m4b);
 
             Matrix4 m4c = new Matrix4();
             m4c = Matrix4.CreateRotationZ(0.72f);
+            m4c = Transpose(m4c);
 
             Matrix4 m4d = m4c * m4b;
+
             Matrix4 expected = new Matrix4(-0.644213855267f, 0.659384668f, 0.3875569210f, 0, 0.5650192710f, 0.751805722713f, -0.3399137459f, 0, -0.51550144f, 0, -0.856888711452f, 0, 0, 0, 0, 1);
             Assert.IsTrue(compare(m4d, expected), "Expected: " + Matrix4ToString(expected) + "\n" + "Received: " + Matrix4ToString(m4d));
-        }                 
+        }
 
         [TestMethod]
         public void Vector3MatrixTranslation()
@@ -414,6 +435,8 @@ namespace UnitTest
         {
             // homogeneous point translation
             Matrix4 m4c = Matrix4.CreateRotationZ(2.2f);
+
+            m4c = Transpose(m4c);
             m4c.M30 = 55; m4c.M31 = 44; m4c.M32 = 99; m4c.M33 = 1;
 
             Vector4 v4a = new Vector4(13.5f, -48.23f, -54, 1);
@@ -460,6 +483,7 @@ namespace UnitTest
         {
             // homogeneous point translation
             Matrix4 m4c = Matrix4.CreateRotationZ(2.2f);
+            m4c = Transpose(m4c);
             m4c.M30 = 55; m4c.M31 = 44; m4c.M32 = 99; m4c.M33 = 1;
 
             Vector4 v4a = new Vector4(13.5f, -48.23f, -54, 0);
